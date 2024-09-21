@@ -14,7 +14,7 @@ Still I am perfecting it, the normal computation is still under development.<br>
 As with all open source software you may use it at your own risk.<br><br>
 It runs for the time being as KNNCUDA "file.ply" "number of neighbors" "number of gpus"<br><br>  
 
-Copyringht Alexander Agathos.
+Copyringht Dr. Alexander Agathos.
 
 
 

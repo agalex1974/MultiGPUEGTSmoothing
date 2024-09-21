@@ -11,10 +11,10 @@ Volume 121,<br>
 https://doi.org/10.1016/j.parco.2024.103093.<br><br>
 The license is Apache so you can use it for Academic and Commercial purposes.<br><br>
 Still I am perfecting it, the normal computation is still under development.<br><br>
-
 As with all open source software you may use it at your own risk.<br><br>
+It runs for the time being as KNNCUDA "file.ply" "number of neighbors" "number of gpus"<br><br>  
 
-It runs for the time being as KNNCUDA "file.ply" "number of neighbors" "number of gpus"  
+Copyringht Alexander Agathos.
 
 
 

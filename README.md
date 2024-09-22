@@ -1,4 +1,4 @@
-# MultiGPU EGT Smoothing
+# Multi GPU EGT Smoothing
 <img src="/images/gargoyle.jpg" alt="image" width="800" height="auto"><br>
 Left, reconstruction in Geomagic without smoothing and right, after performing 300 iterations of smoothing.
 

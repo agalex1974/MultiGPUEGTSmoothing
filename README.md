@@ -1,4 +1,6 @@
 # MultiGPU EGT Smoothing
+<img src="/images/gargoyle.jpg" alt="image" width="300" height="auto">
+
 Perform Multi GPU EGT smoothing On a Point Cloud or a Mesh<br><br>
 This is the code that perform multi-gpu smoothing on a PointCloud and also Normal Computation.<br>
 This code is based on the paper:

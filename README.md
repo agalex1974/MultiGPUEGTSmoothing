@@ -1,6 +1,6 @@
 # Multi GPU EGT Smoothing
 <img src="/images/smooth_pipeline.jpg" alt="image" width="auto" height="auto"><br>
-Left, reconstruction in Geomagic without smoothing, middle, after performing 300 iterations of smoothing on the point-cloud, right after performing 150 iterations on the mesh produced.<br>
+Left, reconstruction in Geomagic without smoothing, middle, after performing 300 iterations of smoothing on the point-cloud, right after performing 150 iterations on the mesh produced in the middle.<br>
 All can be done using this software.
 
 Perform Multi GPU EGT smoothing On a Point Cloud or a Mesh<br><br>

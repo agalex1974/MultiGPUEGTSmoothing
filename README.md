@@ -23,5 +23,5 @@ Example:<br>
 For point cloud:<br>
 ./KNNCUDA bunny.ply 40 150 0.65 0 1<br>
 For a mesh:<br>
-./KNNCUDA bunny.ply 40 150 1e-8 0 1<br> 
+./KNNCUDA bunny.ply 40 150 1e-8 1 1<br> 
 Copyringht Dr. Alexander Agathos.

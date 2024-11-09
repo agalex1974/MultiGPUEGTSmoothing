@@ -80,38 +80,56 @@ int main(int argc, char** argv)
     std::vector<float> normals_x;
     std::vector<float> normals_y;
     std::vector<float> normals_z;
+    //The total number of neighbors
     int k = atoi(argv[2]);
-    int numcards = atoi(argv[3]);
+    //The total number of Elliptic Gabriel Taubin iterations
+    int iterations = atoi(argv[3]);
+    //The Gabriel graph alpha shout be set in the range (0,1] a good value is 0.65 for point-clouds
+    //and 1e-8 for meshes.
+    float alpha = atof(argv[4]);
+    //If it is a Mesh then set to one if point-cloud set to zero
+    float isMesh = atoi(argv[5]);
+    //The number of cards
+    int numcards = atoi(argv[6]);
+
     Mesh mesh;
     ReadPLY(meshPathOrigin, &mesh);
     normals_x.resize(mesh.mV.size());
     normals_y.resize(mesh.mV.size());
     normals_z.resize(mesh.mV.size());
 
-
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::vector<float> out_x(mesh.mV.size());
     std::vector<float> out_y(mesh.mV.size());
     std::vector<float> out_z(mesh.mV.size());
-    std::unique_ptr<GridStructure> knnInterface = std::make_unique<GridStructure>(mesh, numcards, 1e-6, 1024, 4);
-    knnInterface->GRIDCUDAKNNSELF_COMPACT(k, 1e8);
-    //GridMeshCuda* knnInterface = new GridMeshCuda(mesh, numcards, 1e-6,1024);
-    //knnInterface->GetNeighborsFromTriangles(k);
-    std::chrono::steady_clock::time_point begin_smooth = std::chrono::steady_clock::now();
+
+    std::shared_ptr<KNNInterface> knnInterface;
+    if (!isMesh) {
+        knnInterface = std::make_shared<GridStructure>(mesh, numcards, 1e-6, 1024, 4);
+        std::static_pointer_cast<GridStructure>(knnInterface)->GRIDCUDAKNNSELF_COMPACT(k, 1e8);
+    }
+    else {
+        knnInterface = std::make_shared<GridMeshCuda>(mesh, numcards, 1e-6, 1024);
+        std::static_pointer_cast<GridMeshCuda>(knnInterface)->GetNeighborsFromTriangles(k);
+    }
     EGT_CUDA smoother(*knnInterface);
-    smoother.PerformSmoothing(150,0.63,-0.64,0.65);
-    Normal_CUDA normalCuda(*knnInterface);
-    normalCuda.GetNormals(normals_x.data(), normals_y.data(), normals_z.data());
+    smoother.PerformSmoothing(iterations, 0.63, -0.64, alpha);
+    if (!isMesh) {
+        Normal_CUDA normalCuda(*knnInterface);
+        normalCuda.GetNormals(normals_x.data(), normals_y.data(), normals_z.data());
+    }
     getOutputPoints(out_x.data(), out_y.data(), out_z.data(), knnInterface.get());
-    mesh.mN.resize(knnInterface->pointsRefCount());
+
+    if (!isMesh) mesh.mN.resize(knnInterface->pointsRefCount());
     for (int i = 0; i < mesh.mV.size(); i++) {
         mesh.mV[i].x = out_x[i];
         mesh.mV[i].y = out_y[i];
         mesh.mV[i].z = out_z[i];
-
-        mesh.mN[i].x = normals_x[i];
-        mesh.mN[i].y = normals_y[i];
-        mesh.mN[i].z = normals_z[i];
+        if (!isMesh) {
+            mesh.mN[i].x = normals_x[i];
+            mesh.mN[i].y = normals_y[i];
+            mesh.mN[i].z = normals_z[i];
+        }
     }
     WritePLY("output.ply", &mesh);
 	printf("Succeeded!\n");

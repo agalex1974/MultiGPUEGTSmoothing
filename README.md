@@ -16,6 +16,12 @@ https://doi.org/10.1016/j.parco.2024.103093.<br><br>
 The license is MIT so you can use it for Academic and Commercial purposes.<br><br>
 Still I am perfecting it, the normal computation is still under development and it needs a lot of polishing up.<br><br>
 As with all open source software you may use it at your own risk.<br><br>
-It runs for the time being as KNNCUDA "file.ply" "number of neighbors" "number of gpus"<br><br>  
 
+It runs as:<br>
+KNNCUDA "file.ply" "integer:number of neighbors" "integer:number of Gabriel iterations" "float:alpha-value" "integer:0 if point-cloud, 1 if mesh" "integer:number of gpu cards"<br><br>  
+Example:<br>
+For point cloud:<br>
+./KNNCUDA bunny.ply 40 150 0.65 0 1<br>
+For a mesh:<br>
+./KNNCUDA bunny.ply 40 150 1e-8 0 1<br> 
 Copyringht Dr. Alexander Agathos.
